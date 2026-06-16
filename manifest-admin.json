@@ -1,0 +1,28 @@
+{
+  "name": "狗狗愛漂亮｜後台管理",
+  "short_name": "愛漂亮後台",
+  "description": "狗狗愛漂亮寵物美容坊後台管理系統",
+  "start_url": "/admin.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDFBF7",
+  "theme_color": "#FDFBF7",
+  "scope": "/",
+  "categories": ["business", "utilities"],
+  "icons": [
+    {
+      "src": "https://wcfbcayehdwwphymcwmh.supabase.co/storage/v1/object/public/logo/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://wcfbcayehdwwphymcwmh.supabase.co/storage/v1/object/public/logo/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}
