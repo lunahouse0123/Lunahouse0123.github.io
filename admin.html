@@ -15,6 +15,23 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* 修正 iOS PWA 模式下頂部導覽列被 iPhone 瀏海（安全區域）遮擋的問題 */
+    @supports (padding-top: env(safe-area-inset-top)) {
+      @media screen and (max-width: 768px) {
+        body {
+          padding-top: env(safe-area-inset-top) !important;
+        }
+        /* 自動識別行動端固定在頂部的導覽列（排除全高度的側邊欄選單） */
+        .fixed.top-0:not(.h-full):not(.h-screen) {
+          padding-top: env(safe-area-inset-top) !important;
+          height: calc(4rem + env(safe-area-inset-top)) !important;
+          display: flex !important;
+          align-items: center !important;
+        }
+      }
+    }
+  </style>
 
   <script>
     /* 這裡刻意保留 hanamu 前綴，但在底層映射成狗狗愛漂亮的色系，這樣 HTML 就不必全部重改 */
@@ -356,6 +373,7 @@
         <div id="detailOwner" class="soft-card p-4"></div>
         <div id="detailPet" class="soft-card p-4"></div>
         <div id="detailService" class="soft-card p-4"></div>
+        <div id="detailHealth" class="soft-card p-4"></div>
         <div id="detailSignature" class="soft-card p-4"></div>
 
 
@@ -745,29 +763,49 @@ $("detailOwner").innerHTML = `
   <div class="kv"><span>姓名</span><span>${p.owner_name||"-"}</span></div>
   <div class="kv"><span>電話</span><span>${r.owner_phone||"-"}</span></div>
   <div class="kv"><span>Email</span><span>${p.owner_email||"-"}</span></div>
-  <div class="kv"><span>身分證</span><span>${p.owner_id||"-"}</span></div>
+  <div class="kv"><span>身分證字號</span><span>${p.owner_id||"-"}</span></div>
   <div class="kv"><span>地址</span><span>${p.owner_address||"-"}</span></div>
-  <div class="kv"><span>緊急聯絡</span><span>${p.emergency_name||"-"} (${p.emergency_phone||"-"})</span></div>
+  <div class="kv"><span>緊急聯絡人</span><span>${p.emergency_contact||"-"}</span></div>
+  <div class="kv"><span>緊急電話</span><span>${p.emergency_phone||"-"}</span></div>
   <div class="kv"><span>指定醫院</span><span>${p.hospital||"-"}</span></div>
 `;
 
 $("detailPet").innerHTML = `
   <div class="section-title">寵物資料</div>
+  <div class="kv"><span>寵物種類</span><span>${p.pet_type==="dog"?"🐶 狗狗":"🐱 貓咪"}</span></div>
   <div class="kv"><span>品種</span><span>${p.pet_breed||"-"}</span></div>
   <div class="kv"><span>花色</span><span>${p.pet_color||"-"}</span></div>
-  <div class="kv"><span>年齡</span><span>${p.pet_age||"-"}</span></div>
+  <div class="kv"><span>年齡</span><span>${p.pet_age||"-"} 歲</span></div>
   <div class="kv"><span>性別</span><span>${p.pet_sex||"-"}</span></div>
   <div class="kv"><span>結紮</span><span>${p.is_neutered||"-"}</span></div>
+  <div class="kv"><span>晶片狀態</span><span>${p.chip_status==="has"?`有晶片 (${p.chip_number||"號碼不詳"})`:p.chip_status==="unknown"?"有晶片 (號碼不詳)":"無晶片"}</span></div>
+  <div class="kv"><span>親人</span><span>${p.friendly_to_people||"-"}</span></div>
+  <div class="kv"><span>親狗</span><span>${p.friendly_to_dogs||"-"}</span></div>
   <div class="kv"><span>攻擊性</span><span>${p.is_aggressive||"-"}</span></div>
-  <div class="kv"><span>病史</span><span>${p.has_history||"-"}</span></div>
+  <div class="kv"><span>不喜歡被碰觸</span><span>${p.dislike_touch||"無"}</span></div>
+  <div class="kv"><span>過往病史</span><span>${p.has_history||"-"}</span></div>
   <div class="kv"><span>病史說明</span><span>${p.history_notes||"-"}</span></div>
 `;
 
 $("detailService").innerHTML = `
+  <div class="section-title">服務內容</div>
   <div class="kv"><span>服務日期</span><span>${p.service_date||"-"}</span></div>
   <div class="kv"><span>服務項目</span><span>${p.service_type||"-"}</span></div>
+  <div class="kv"><span>其他服務</span><span>${p.other_service||"無"}</span></div>
   <div class="kv"><span>升級加購</span><span>${[p.upgrade_oral_gel,p.upgrade_carbon_bath,p.upgrade_spa_light,p.upgrade_spa_thick].filter(Boolean).join("、")||"無"}</span></div>
-  <div class="kv"><span>接回時間</span><span>${p.pickup_time||"-"}</span></div>
+  <div class="kv"><span>預計接回時間</span><span>${p.pickup_time||"-"}</span></div>
+  <div class="kv"><span>支付方式</span><span>${p.payment||"-"}${p.other_payment?` (${p.other_payment})`:""}</span></div>
+  <div class="kv"><span>支付金額</span><span>NT$ ${p.amount?Number(p.amount).toLocaleString():"-"}</span></div>
+`;
+
+$("detailHealth").innerHTML = `
+  <div class="section-title">身體狀態檢查（目視）</div>
+  <div class="kv"><span>眼睛</span><span>${p.check_eye||"-"}${p.eye_description?` (${p.eye_description})`:""}</span></div>
+  <div class="kv"><span>耳朵</span><span>${p.check_ear||"-"}${p.ear_description?` (${p.ear_description})`:""}</span></div>
+  <div class="kv"><span>牙齒</span><span>${p.check_tooth||"-"}${p.tooth_description?` (${p.tooth_description})`:""}</span></div>
+  <div class="kv"><span>四肢</span><span>${p.check_limb||"-"}${p.limb_description?` (${p.limb_description})`:""}</span></div>
+  <div class="kv"><span>皮膚</span><span>${p.check_skin||"-"}${p.skin_description?` (${p.skin_description})`:""}</span></div>
+  <div class="kv"><span>皮毛</span><span>${p.check_fur||"-"}${p.fur_description?` (${p.fur_description})`:""}</span></div>
 `;
 
 $("detailSignature").innerHTML = `
