@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -346,6 +346,27 @@
             20%, 80% { transform: translate3d(2px, 0, 0); }
             30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
             40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+
+        /* 成功動畫打勾 */
+        .checkmark__circle { stroke-dasharray: 166; stroke-dashoffset: 166; stroke-width: 3; stroke-miterlimit: 10; stroke: #10B981; fill: none; animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards; }
+        .checkmark { width: 80px; height: 80px; border-radius: 50%; display: block; stroke-width: 3; stroke: #fff; stroke-miterlimit: 10; margin: auto; box-shadow: inset 0px 0px 0px #10B981; animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both; }
+        .checkmark__check { transform-origin: 50% 50%; stroke-dasharray: 48; stroke-dashoffset: 48; animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards; }
+        @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+        @keyframes scale { 0%, 100% { transform: none; } 50% { transform: scale3d(1.1, 1.1, 1); } }
+        @keyframes fill { 100% { box-shadow: inset 0px 0px 0px 40px #10B981; } }
+
+        /* 簽名板鎖定防滾動跳動 */
+        body.lock-scroll { position: fixed; width: 100%; overflow: hidden; overscroll-behavior: none; }
+        #signature-modal { touch-action: none; overscroll-behavior: contain; height: 100dvh; }
+    </style>
+<style>
+        /* 針對桌機版取消毛玻璃，優化渲染效能 */
+        @media (min-width: 768px) {
+            .glass-panel {
+                backdrop-filter: none !important;
+                background-color: rgba(255, 255, 255, 0.95) !important;
+            }
         }
     </style>
 </head>
@@ -971,6 +992,59 @@
                 <div class="h-12"></div>
             </form>
         </div>
+
+        <div id="view-success" class="hidden flex-col items-center justify-center min-h-[80vh] py-8 space-y-5">
+
+            <!-- 成功動畫卡片 -->
+            <div class="glass-panel w-full rounded-[32px] p-8 text-center flex flex-col items-center animate-slide-up shadow-glass relative overflow-hidden">
+                <!-- 裝飾背景泡泡 -->
+                <div class="absolute top-0 right-0 w-32 h-32 bg-theme-orangeSoft/30 rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+                <div class="absolute bottom-0 left-0 w-24 h-24 bg-theme-mint/40 rounded-full translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+
+                <div class="w-24 h-24 mb-4 relative z-10">
+                    <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                </div>
+                
+                <div class="space-y-1.5 relative z-10">
+                    <div class="flex items-center justify-center gap-2 mb-1">
+                        <span class="text-2xl">🐾</span>
+                        <h2 id="success-title" class="text-2xl font-black text-theme-brown tracking-wide"></h2>
+                        <span class="text-2xl">🐾</span>
+                    </div>
+                    <p id="success-subtitle" class="text-sm text-theme-sub font-medium"></p>
+                </div>
+            </div>
+
+            <!-- 契約摘要卡片 -->
+            <div id="success-summary-card" class="w-full glass-panel rounded-[28px] overflow-hidden animate-slide-up" style="animation-delay:0.1s;">
+                <div class="bg-gradient-to-r from-theme-brown to-theme-brownLight px-5 py-4 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                        <i data-lucide="clipboard-check" class="w-4 h-4 text-white"></i>
+                    </div>
+                    <span class="font-black text-white tracking-wide text-sm">契約摘要</span>
+                    <span class="ml-auto text-white/60 text-xs" id="success-timestamp"></span>
+                </div>
+                <div class="p-5 space-y-3" id="success-summary-body">
+                    <!-- 動態填入 -->
+                </div>
+            </div>
+
+            <!-- 信箱提示訊息 -->
+            <div id="success-message" class="w-full"></div>
+
+            <!-- 操作按鈕 -->
+            <div class="w-full space-y-3 animate-slide-up" style="animation-delay:0.2s;">
+                <button onclick="app.openFullContract()" class="w-full bg-theme-brown text-white py-4 rounded-[24px] font-bold shadow-lg shadow-theme-brown/20 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                    <i data-lucide="file-text" class="w-5 h-5"></i> 開啟完整契約 (截圖保存)
+                </button>
+                <button onclick="app.router('home')" class="w-full py-4 rounded-[24px] bg-white border border-theme-sub/20 text-theme-text font-bold flex items-center justify-center gap-2 hover:bg-gray-50 active:scale-[0.98] transition-all">
+                    <i data-lucide="home" class="w-4 h-4"></i> 返回首頁 (重置)
+                </button>
+            </div>
+        </div>
     </main>
 
     <div id="termsModal" class="fixed inset-0 z-[100] hidden bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
@@ -1117,17 +1191,22 @@
             router: function(page) {
                 window.scrollTo({top: 0, behavior: 'smooth'});
                 
-                const views = ['home', 'contract'];
+                const views = ['home', 'contract', 'success'];
                 views.forEach(v => {
                     const el = document.getElementById('view-' + v);
                     if(el) {
-                        if(v === page) el.classList.remove('hidden');
-                        else el.classList.add('hidden');
+                        if(v === page) {
+                            el.classList.remove('hidden');
+                            if (v === 'success') el.classList.add('flex');
+                        } else {
+                            el.classList.add('hidden');
+                            if (v === 'success') el.classList.remove('flex');
+                        }
                     }
                 });
 
                 const btnBack = document.getElementById('btn-back');
-                if(page === 'home') btnBack.classList.add('hidden');
+                if(page === 'home' || page === 'success') btnBack.classList.add('hidden');
                 else btnBack.classList.remove('hidden');
             },
 
@@ -1469,17 +1548,9 @@
                 const modal = document.getElementById('signature-modal');
                 modal.classList.remove('hidden');
                 
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.top = `-${this.savedScrollY}px`; 
-                document.body.style.width = '100%';
-
-                this.preventScroll = function(e) {
-                    if (e.target.closest('#signature-modal')) {
-                        e.preventDefault();
-                    }
-                };
-                document.addEventListener('touchmove', this.preventScroll, { passive: false });
+                // 優化 iOS 防滾動：使用 class 而非直接改 style
+                document.body.classList.add('lock-scroll');
+                document.body.style.top = `-${this.savedScrollY}px`;
                 
                 setTimeout(() => {
                     this.resizeCanvas();
@@ -1493,16 +1564,9 @@
             closeSignatureModal: function() {
                 document.getElementById('signature-modal').classList.add('hidden');
                 
-                document.body.style.overflow = '';
-                document.body.style.position = '';
+                document.body.classList.remove('lock-scroll');
                 document.body.style.top = '';
-                document.body.style.width = '';
-                
                 window.scrollTo(0, this.savedScrollY || 0);
-
-                if (this.preventScroll) {
-                    document.removeEventListener('touchmove', this.preventScroll);
-                }
 
                 setTimeout(() => {
                     const target = document.getElementById('signature-section');
@@ -1875,22 +1939,23 @@
 
                     if (error) throw error;
 
-                    const emailToUse = contractData.owner_email;
-                    const hasEmail = emailToUse && emailToUse !== '無';
+                    // 智能判斷：是否有真實客戶信箱（排除備用/佔位信箱）
+                    const rawEmail = formData.get('ownerEmail') || '';
+                    const isNoEmail = document.getElementById('noEmailCheck')?.checked;
+                    const customerEmail = (!isNoEmail && rawEmail && rawEmail !== '無') ? rawEmail.trim() : '';
+                    const hasEmail = !!customerEmail;
 
-                    if (hasEmail) {                        
-                        this.supabase.functions.invoke('send-mail', {
-                            body: { 
-                                email: contractData.owner_email,
-                                owner_name: contractData.owner_name,
-                                pet_name: contractData.pet_name,
-                                htmlContent: this.generateEmailHTML(contractData) 
-                            }
-                        }).then(({ error }) => {
-                            if (error) console.error('Email 發送失敗:', error);
-                            else console.log('Email 發送成功');
-                        });
-                    }
+                    // 無論有沒有填信箱，都呼叫 Edge Function 寄信給店家
+                    this.supabase.functions.invoke('send-mail', {
+                        body: {
+                            to: customerEmail,           // 有填則寄客人，沒填傳空字串讓 Function 只寄店家
+                            petNames: contractData.pet_name,
+                            html: this.generateEmailHTML(contractData)
+                        }
+                    }).then(({ error, data }) => {
+                        if (error) console.error('Email 發送失敗:', error);
+                        else console.log('Email 發送成功:', data);
+                    });
 
                     this.lastContractData = contractData; 
                     this.showToast('契約已成功提交！', 'success');
@@ -1911,79 +1976,93 @@
             },
 
             showDownloadPage: function(contractData, hasEmail) {
-                const views = ['home', 'contract'];
-                views.forEach(v => {
-                    const el = document.getElementById('view-' + v);
-                    if(el) el.classList.add('hidden');
-                });
+                this.router('success');
                 
-                const downloadView = document.getElementById('view-download');
-                if(downloadView) {
-                    downloadView.remove(); 
-                }
-                this.createDownloadPage(contractData, hasEmail);
-                
-                const btnBack = document.getElementById('btn-back');
-                if(btnBack) btnBack.classList.add('hidden');
-                
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            },
+                const titleEl = document.getElementById("success-title");
+                const subtitleEl = document.getElementById("success-subtitle");
+                const messageEl = document.getElementById("success-message");
+                const summaryBody = document.getElementById("success-summary-body");
+                const timestampEl = document.getElementById("success-timestamp");
 
-            createDownloadPage: function(contractData, hasEmail) {
-                const main = document.querySelector('main');
-                
-                const title = hasEmail ? '契約已寄出！' : '提交成功！';
-                const subTitle = hasEmail 
-                    ? '副本已自動發送至您的電子信箱' 
-                    : '<span class="text-red-500 font-bold">⚠️ 您未填寫電子信箱</span>';
-                    
-                const alertBox = hasEmail
-                    ? `<div class="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-6 text-sm text-blue-800 shadow-sm">
-                         <div class="font-bold flex items-center gap-2 mb-2 text-lg"><i data-lucide="info" class="w-5 h-5"></i> 溫馨提醒</div>
-                         <p class="leading-relaxed">契約電子副本已寄出。<br>建議您仍可點擊下方按鈕，開啟完整契約進行<strong>手機截圖保存</strong>留底。</p>
-                       </div>`
-                    : `<div class="bg-red-50 border-2 border-red-200 rounded-xl p-5 mb-6 text-sm text-red-800 animate-pulse shadow-md">
-                         <div class="font-bold flex items-center gap-2 mb-2 text-lg"><i data-lucide="alert-triangle" class="w-6 h-6 text-red-600"></i> 重要安全提醒</div>
-                         <p class="leading-relaxed font-bold text-base">因您未填寫信箱，請務必點擊下方按鈕開啟契約，並立即進行手機螢幕截圖保存！</p>
-                         <p class="mt-2 text-xs opacity-80">(本網頁關閉後將無法再次返回此畫面查看)</p>
-                       </div>`;
+                // 時間戳
+                const now = new Date();
+                const dateStr = now.toLocaleDateString('zh-TW', { year: 'numeric', month: '2-digit', day: '2-digit' });
+                const timeStr = now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+                if (timestampEl) timestampEl.textContent = `${dateStr} ${timeStr}`;
 
-                const downloadView = document.createElement('div');
-                downloadView.id = 'view-download';
-                downloadView.className = 'animate-slide-up space-y-6 px-2';
-                
-                downloadView.innerHTML = `
-                    <div class="text-center pt-10 pb-4">
-                        <div class="w-24 h-24 mx-auto mb-4 rounded-full ${hasEmail ? 'bg-[#10B981]/10' : 'bg-red-100'} flex items-center justify-center">
-                            <i data-lucide="${hasEmail ? 'check' : 'alert-circle'}" class="w-12 h-12 ${hasEmail ? 'text-[#10B981]' : 'text-red-500'} stroke-[3]"></i>
-                        </div>
-                        <h2 class="text-3xl font-bold text-theme-brown mb-2 tracking-wide">${title}</h2>
-                        <p class="text-base text-theme-sub">${subTitle}</p>
-                    </div>
-                    
-                    <div>
-                        ${alertBox}
-                    </div>
-                    
-                    <div class="space-y-4 pt-4">
-                        <button onclick="app.openFullContract()" class="w-full bg-theme-brown text-white py-5 rounded-2xl font-bold shadow-xl shadow-theme-brown/30 flex items-center justify-center gap-3 text-lg hover:bg-theme-brownLight active:scale-95 transition-all group border-2 border-theme-brown">
-                            <div class="bg-white/20 p-2 rounded-full group-hover:rotate-12 transition-transform">
-                                <i data-lucide="file-text" class="w-6 h-6 text-white"></i>
+                // 服務項目
+                const servicesText = Array.isArray(contractData.services) && contractData.services.length > 0
+                    ? contractData.services.join('、') + (contractData.other_service ? `（${contractData.other_service}）` : '')
+                    : '未選擇';
+
+                // 金額
+                const amountText = contractData.amount ? `NT$ ${Number(contractData.amount).toLocaleString()} 元` : '未填寫';
+
+                // 接回時間
+                const pickupText = contractData.pickup_time || '另行通知';
+
+                // 智能判斷信箱
+                const userEmail = contractData.owner_email;
+                const isRealEmail = userEmail && userEmail !== '無' && !userEmail.includes('your_client_backup');
+                const emailDisplay = isRealEmail
+                    ? `<span class="text-theme-brown font-bold">${userEmail}</span>`
+                    : `<span class="text-red-400 font-bold flex items-center gap-1"><i data-lucide="alert-circle" class="w-3 h-3 inline-block"></i> 未填寫（請截圖保存）</span>`;
+
+                // 摘要行渲染
+                const rows = [
+                    { icon: 'paw-print', label: '寵物名字', value: `<strong class="text-theme-brown">${contractData.pet_name || '—'}</strong>（${contractData.pet_type === 'dog' ? '🐶 狗狗' : '🐱 貓咪'}）` },
+                    { icon: 'scissors', label: '服務項目', value: servicesText },
+                    { icon: 'clock', label: '預計接回', value: pickupText },
+                    { icon: 'banknote', label: '約定金額', value: `<strong class="text-theme-brown text-base">${amountText}</strong><span class="text-xs text-theme-sub ml-1">（${contractData.payment || ''}）</span>` },
+                    { icon: 'mail', label: '副本信箱', value: emailDisplay },
+                ];
+
+                if (summaryBody) {
+                    summaryBody.innerHTML = rows.map(r => `
+                        <div class="flex items-start gap-3 py-2.5 border-b border-theme-brown/8 last:border-b-0">
+                            <div class="w-7 h-7 rounded-full bg-theme-orangeSoft/60 flex items-center justify-center shrink-0 mt-0.5">
+                                <i data-lucide="${r.icon}" class="w-3.5 h-3.5 text-theme-orange"></i>
                             </div>
-                            <span>開啟完整契約 (截圖保存)</span>
-                        </button>
+                            <div class="flex-1 min-w-0">
+                                <div class="text-[10px] text-theme-sub font-bold uppercase tracking-wide mb-0.5">${r.label}</div>
+                                <div class="text-sm text-theme-text leading-snug">${r.value}</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
 
-                        <button onclick="app.router('home')" class="w-full bg-white text-theme-sub py-4 rounded-2xl font-bold shadow-sm border border-gray-200 flex items-center justify-center gap-2 active:scale-95 transition-all hover:bg-gray-50">
-                            <i data-lucide="home" class="w-5 h-5"></i>
-                            <span>返回首頁 (完成)</span>
-                        </button>
-                    </div>
-                    
-                    <p class="text-center text-xs text-gray-400 mt-4">點擊返回後，當前輸入緩衝資料將會完全重置</p>
-                    <div class="h-10"></div>
-                `;
+                // 標題與副標
+                if (hasEmail) {
+                    titleEl.textContent = '契約提交成功！';
+                    subtitleEl.textContent = '副本已自動發送至您的電子信箱';
+                    messageEl.innerHTML = `
+                        <div class="bg-[#10B981]/10 border border-[#10B981]/30 rounded-[20px] p-4 text-sm text-[#059669] shadow-sm text-left flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-[#10B981]/20 flex items-center justify-center shrink-0">
+                                <i data-lucide="mail-check" class="w-4 h-4 text-[#10B981]"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold mb-1">信件已發送 ✓</div>
+                                <p class="leading-relaxed text-xs opacity-80">建議仍可點擊下方按鈕，開啟完整契約進行<strong>手機截圖</strong>留底。</p>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    titleEl.textContent = '契約已送出！';
+                    subtitleEl.innerHTML = '<span class="text-red-400 font-bold text-xs">⚠️ 未填寫電子信箱，請務必截圖保存</span>';
+                    messageEl.innerHTML = `
+                        <div class="bg-red-50 border border-red-200 rounded-[20px] p-4 text-sm text-red-700 shadow-sm text-left flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                                <i data-lucide="alert-triangle" class="w-4 h-4 text-red-500"></i>
+                            </div>
+                            <div>
+                                <div class="font-bold mb-1">重要安全提醒</div>
+                                <p class="leading-relaxed text-xs font-bold">請立即點擊下方按鈕開啟契約，進行<br>【手機螢幕截圖保存】！</p>
+                                <p class="mt-1.5 text-xs opacity-70">本網頁關閉後將無法再次返回查看。</p>
+                            </div>
+                        </div>
+                    `;
+                }
                 
-                main.appendChild(downloadView);
                 if (typeof lucide !== 'undefined') lucide.createIcons();
             },
 
@@ -2028,177 +2107,214 @@
                     <meta charset="utf-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>狗狗愛漂亮美容服務契約</title>
+                    <style>
+                        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+                        * { box-sizing: border-box; }
+                        body { margin: 0; padding: 0; background-color: #FDFBF7; font-family: 'Noto Sans TC', 'Helvetica', sans-serif; color: #3D4D5C; -webkit-font-smoothing: antialiased; }
+                        .section-label { font-size: 10px; font-weight: 700; color: #7A8E9C; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+                        .info-row { display: flex; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid rgba(92,107,122,0.08); }
+                        .info-row:last-child { border-bottom: none; }
+                        .info-label { width: 90px; min-width: 90px; font-size: 12px; color: #7A8E9C; font-weight: 500; padding-top: 1px; }
+                        .info-value { flex: 1; font-size: 13px; color: #3D4D5C; font-weight: 500; line-height: 1.6; }
+                        .badge { display: inline-block; background: #FFDEE2; color: #E8749B; border-radius: 999px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+                        .badge-gray { background: #F0F2F4; color: #5C6B7A; }
+                        .badge-green { background: #D4F0E8; color: #059669; }
+                        .badge-red { background: #FEE2E2; color: #DC2626; }
+                        .tag { display: inline-block; background: #F0F2F4; color: #5C6B7A; border-radius: 6px; padding: 1px 7px; font-size: 11px; margin-right: 4px; font-weight: 600; }
+                        .highlight { color: #E8749B; font-weight: 700; }
+                        .abnormal { color: #E8749B; font-weight: 700; }
+                    </style>
                 </head>
-                <body style="font-family: 'Helvetica', 'Arial', sans-serif; line-height: 1.6; color: #4A3728; background-color: #FFFDF7; margin: 0; padding: 0;">
-                    
-                    <div style="max-width: 600px; margin: 20px auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e5e0da;">
-                        
-                        <div style="background-color: #4A3728; padding: 25px 20px; text-align: center;">
-                            <img src="${logoUrl}" alt="狗狗愛漂亮 Logo" style="width: 70px; height: 70px; border-radius: 50%; border: 3px solid #FFFDF7; margin-bottom: 10px; display: inline-block;">
-                            <h1 style="margin: 0; color: #ffffff; font-size: 22px; letter-spacing: 2px;">美容服務契約書副本</h1>
-                            <p style="margin: 5px 0 0 0; color: #E68A4B; font-size: 12px; font-weight: bold; letter-spacing: 1px;">PET GROOMING SALON</p>
+                <body>
+
+                    <!-- 外層容器 -->
+                    <div style="max-width: 600px; margin: 24px auto; border-radius: 28px; overflow: hidden; box-shadow: 0 8px 32px rgba(92,107,122,0.10); border: 1px solid rgba(255,255,255,0.8); background: #ffffff;">
+
+                        <!-- Hero Header -->
+                        <div style="background: linear-gradient(135deg, #5C6B7A 0%, #3D4D5C 100%); padding: 32px 24px 28px; text-align: center; position: relative; overflow: hidden;">
+                            <div style="position: absolute; top: -20px; right: -20px; width: 100px; height: 100px; background: rgba(255,222,226,0.15); border-radius: 50%;"></div>
+                            <div style="position: absolute; bottom: -30px; left: -10px; width: 80px; height: 80px; background: rgba(212,240,232,0.12); border-radius: 50%;"></div>
+                            <div style="position: relative; z-index: 1;">
+                                <div style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid rgba(255,255,255,0.9); margin: 0 auto 14px; overflow: hidden; background: white; padding: 6px;">
+                                    <img src="${logoUrl}" alt="狗狗愛漂亮" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+                                </div>
+                                <h1 style="margin: 0 0 6px; color: #ffffff; font-size: 20px; font-weight: 900; letter-spacing: 3px;">狗狗愛漂亮</h1>
+                                <div style="display: inline-block; background: rgba(232,116,155,0.25); color: #FFDEE2; border-radius: 999px; padding: 4px 16px; font-size: 11px; font-weight: 700; letter-spacing: 2px; margin-bottom: 8px;">PET GROOMING SALON</div>
+                                <div style="color: rgba(255,255,255,0.7); font-size: 12px; letter-spacing: 1px;">美容服務契約書副本</div>
+                            </div>
                         </div>
 
-                        <div style="padding: 30px 25px;">
-                            
-                            <p style="margin-top: 0;">親愛的 <strong>${data.owner_name}</strong> 您好：</p>
-                            <p style="color: #666; font-size: 14px;">感謝您信賴狗狗愛漂亮寵物美容坊！以下是您為您的愛寵 <strong>${data.pet_name}</strong> 本次沙龍美容服務所簽署並成立的定型化契約內容副本。</p>
-
-                            <div style="background-color: #FFFDF7; border: 1px solid #FCDCC5; padding: 20px; margin: 25px 0; border-radius: 12px;">
-                                <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                                    <tr>
-                                        <td width="30" valign="top" style="font-size: 20px;">✂️</td>
-                                        <td style="padding-bottom: 10px;">
-                                            <strong style="color: #4A3728; display: block; margin-bottom: 2px;">美容服務項目</strong>
-                                            <span style="color: #E68A4B; font-weight: bold;">${data.services.join('、 ')}</span>
-                                            ${data.other_service ? `<span style="font-size: 13px; color: #888;">(${data.other_service})</span>` : ''}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="30" valign="top" style="font-size: 20px;">🕒</td>
-                                        <td style="padding-bottom: 10px;">
-                                            <strong style="color: #4A3728; display: block; margin-bottom: 2px;">預計接回時間</strong>
-                                            <span>${data.pickup_time}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td width="30" valign="top" style="font-size: 20px;">💰</td>
-                                        <td>
-                                            <strong style="color: #4A3728; display: block; margin-bottom: 2px;">約定收費金額</strong>
-                                            <span style="font-size: 18px; font-weight: bold;">NT$ ${data.amount}</span>
-                                            <span style="font-size: 12px; color: #888; background: #fff; padding: 2px 6px; border-radius: 4px; border: 1px solid #ddd; margin-left: 5px;">${data.payment}${data.other_payment ? '-' + data.other_payment : ''}</span>
-                                        </td>
-                                    </tr>
-                                </table>
+                        <!-- 打招呼區塊 -->
+                        <div style="padding: 24px 24px 0;">
+                            <div style="background: linear-gradient(135deg, #FFDEE2 0%, #FFF3C4 100%); border-radius: 20px; padding: 18px 20px; margin-bottom: 20px;">
+                                <div style="font-size: 15px; font-weight: 700; color: #3D4D5C; margin-bottom: 6px;">🐾 親愛的 ${data.owner_name} 您好！</div>
+                                <div style="font-size: 13px; color: #5C6B7A; line-height: 1.7;">感謝您將愛寵 <strong style="color: #E8749B;">${data.pet_name}</strong> 交給我們照顧！以下是本次美容服務所簽署之定型化契約副本，請妥善保存。</div>
                             </div>
+                        </div>
 
-                            <h3 style="color: #4A3728; font-size: 16px; border-left: 4px solid #E68A4B; padding-left: 10px; margin-top: 30px;">契約登載詳細資料</h3>
-                            
-                            <table width="100%" cellpadding="10" cellspacing="0" border="0" style="font-size: 14px; border-collapse: collapse; margin-bottom: 20px;">
-                                <tr style="background-color: #fcfbfa;">
-                                    <td colspan="2" style="border-bottom: 2px solid #eee; color: #7A6250; font-weight: bold;">👤 甲方 (飼主) 基本資料</td>
-                                </tr>
-                                <tr>
-                                    <td width="30%" style="border-bottom: 1px solid #eee; color: #888;">飼主姓名</td>
-                                    <td style="border-bottom: 1px solid #eee;"><strong>${data.owner_name}</strong></td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">聯絡手機</td>
-                                    <td style="border-bottom: 1px solid #eee;">${data.owner_phone}</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">身分證字號</td>
-                                    <td style="border-bottom: 1px solid #eee;">${data.owner_id}</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">通訊地址</td>
-                                    <td style="border-bottom: 1px solid #eee;">${data.owner_address}</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">緊急聯絡</td>
-                                    <td style="border-bottom: 1px solid #eee;">${data.emergency_contact} (${data.emergency_phone})</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">指定就醫院所</td>
-                                    <td style="border-bottom: 1px solid #eee;">${data.hospital || '無 (授權由店家特約醫院送醫)'}</td>
-                                </tr>
+                        <!-- 服務摘要卡 -->
+                        <div style="padding: 0 24px 20px;">
+                            <div style="background: #FDFBF7; border: 1.5px solid rgba(232,116,155,0.25); border-radius: 20px; overflow: hidden;">
+                                <div style="background: linear-gradient(90deg, #E8749B, #c25d7e); padding: 10px 18px;">
+                                    <span style="color: white; font-size: 12px; font-weight: 700; letter-spacing: 1px;">✨ 本次服務摘要</span>
+                                </div>
+                                <div style="padding: 16px 18px;">
+                                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                        <tr>
+                                            <td style="padding-bottom: 12px; vertical-align: top;">
+                                                <div class="section-label">✂️ 美容服務項目</div>
+                                                <div style="font-size: 14px; font-weight: 700; color: #E8749B;">${data.services.join('、')}${data.other_service ? '（' + data.other_service + '）' : ''}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-bottom: 12px;">
+                                                <div class="section-label">🕒 預計接回時間</div>
+                                                <div style="font-size: 14px; font-weight: 700; color: #3D4D5C;">${data.pickup_time}</div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="section-label">💰 約定收費金額</div>
+                                                <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                                    <span style="font-size: 22px; font-weight: 900; color: #3D4D5C;">NT$ ${Number(data.amount).toLocaleString()}</span>
+                                                    <span style="background: #F0F2F4; color: #5C6B7A; border-radius: 8px; padding: 2px 10px; font-size: 12px; font-weight: 700;">${data.payment}${data.other_payment ? '－' + data.other_payment : ''}</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
 
-                                <tr style="background-color: #fcfbfa;">
-                                    <td colspan="2" style="border-bottom: 2px solid #eee; color: #7A6250; font-weight: bold; padding-top: 20px;">🐾 寵物健檢與特徵描述</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">寵物名字</td>
-                                    <td style="border-bottom: 1px solid #eee;">
-                                        <span style="background:#eee; color:#555; padding:2px 6px; border-radius:4px; font-size:12px; margin-right:4px;">
-                                            ${data.pet_type === 'cat' ? '貓咪' : '狗狗'}
-                                        </span>
-                                        <strong style="font-size: 16px; color: #4A3728;">${data.pet_name}</strong>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">品種/特徵</td>
-                                    <td style="border-bottom: 1px solid #eee;">
-                                        ${data.breed} / ${data.color || '未填寫'} / ${data.age}歲 / ${mapSex(data.sex)}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">晶片號碼</td>
-                                    <td style="border-bottom: 1px solid #eee;">${mapChip(data.chip_status, data.chip_number)}</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">行為健康狀態</td>
-                                    <td style="border-bottom: 1px solid #eee;">
-                                        結紮: ${mapBool(data.neutered)} / 親人: ${mapBool(data.friendly_to_people)} / 親狗: ${mapBool(data.friendly_to_dogs)}<br>
-                                        <span style="color: #E68A4B;">具攻擊性: ${mapBool(data.aggressive)}</span> / 
-                                        <span>敏感部位: <span style="color: ${data.dislike_touch ? '#E68A4B' : 'inherit'}; font-weight: bold;">${data.dislike_touch || '無'}</span></span> /
-                                        <span style="color: ${data.has_medical_history === 'yes' ? '#E68A4B' : 'inherit'};">過往病史: ${mapBool(data.has_medical_history)}</span>
-                                        ${data.medical_history ? `<br><span style="font-size:12px; color:#666;">(病史備註: ${data.medical_history})</span>` : ''}
-                                    </td>
-                                </tr>
+                        <!-- 飼主資料 -->
+                        <div style="padding: 0 24px 20px;">
+                            <div style="border-radius: 20px; overflow: hidden; border: 1.5px solid rgba(92,107,122,0.1);">
+                                <div style="background: #5C6B7A; padding: 10px 18px;">
+                                    <span style="color: white; font-size: 12px; font-weight: 700; letter-spacing: 1px;">👤 甲方（飼主）基本資料</span>
+                                </div>
+                                <div style="padding: 4px 18px 8px; background: white;">
+                                    <div class="info-row"><div class="info-label">飼主姓名</div><div class="info-value"><strong>${data.owner_name}</strong></div></div>
+                                    <div class="info-row"><div class="info-label">聯絡手機</div><div class="info-value">${data.owner_phone}</div></div>
+                                    <div class="info-row"><div class="info-label">身分證字號</div><div class="info-value">${data.owner_id}</div></div>
+                                    <div class="info-row"><div class="info-label">通訊地址</div><div class="info-value">${data.owner_address}</div></div>
+                                    <div class="info-row"><div class="info-label">緊急聯絡</div><div class="info-value">${data.emergency_contact}（${data.emergency_phone}）</div></div>
+                                    <div class="info-row"><div class="info-label">指定就醫</div><div class="info-value">${data.hospital || '無（授權由店家特約醫院送醫）'}</div></div>
+                                </div>
+                            </div>
+                        </div>
 
-                                <tr style="background-color: #fcfbfa;">
-                                    <td colspan="2" style="border-bottom: 2px solid #eee; color: #7A6250; font-weight: bold; padding-top: 20px;">👁️ 現場外觀檢查 (目視)</td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">眼睛/耳朵</td>
-                                    <td style="border-bottom: 1px solid #eee;">
-                                        眼: ${formatCheck(data.check_eye, data.eye_description)}<br>
-                                        耳: ${formatCheck(data.check_ear, data.ear_description)}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">牙齒/四肢</td>
-                                    <td style="border-bottom: 1px solid #eee;">
-                                        牙: ${formatCheck(data.check_tooth, data.tooth_description)}<br>
-                                        肢: ${formatCheck(data.check_limb, data.limb_description)}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="border-bottom: 1px solid #eee; color: #888;">皮膚/皮毛狀態</td>
-                                    <td style="border-bottom: 1px solid #eee;">
-                                        膚: ${formatCheck(data.check_skin, data.skin_description)}<br>
-                                        毛: ${formatCheck(data.check_fur, data.fur_description)}
-                                    </td>
-                                </tr>
-                            </table>
+                        <!-- 寵物資料 -->
+                        <div style="padding: 0 24px 20px;">
+                            <div style="border-radius: 20px; overflow: hidden; border: 1.5px solid rgba(92,107,122,0.1);">
+                                <div style="background: #5C6B7A; padding: 10px 18px;">
+                                    <span style="color: white; font-size: 12px; font-weight: 700; letter-spacing: 1px;">🐾 寵物詳細資料</span>
+                                </div>
+                                <div style="padding: 4px 18px 8px; background: white;">
+                                    <div class="info-row">
+                                        <div class="info-label">寵物名字</div>
+                                        <div class="info-value">
+                                            <span class="tag">${data.pet_type === 'cat' ? '🐱 貓咪' : '🐶 狗狗'}</span>
+                                            <strong style="font-size: 15px; color: #3D4D5C;">${data.pet_name}</strong>
+                                        </div>
+                                    </div>
+                                    <div class="info-row"><div class="info-label">品種 / 特徵</div><div class="info-value">${data.breed} ／ 毛色：${data.color || '未填'} ／ ${data.age} 歲 ／ ${mapSex(data.sex)}</div></div>
+                                    <div class="info-row"><div class="info-label">晶片號碼</div><div class="info-value">${mapChip(data.chip_status, data.chip_number)}</div></div>
+                                    <div class="info-row">
+                                        <div class="info-label">結紮 / 性格</div>
+                                        <div class="info-value">
+                                            結紮：${mapBool(data.neutered)} ／ 親人：${mapBool(data.friendly_to_people)} ／ 親狗：${mapBool(data.friendly_to_dogs)}<br>
+                                            <span style="color: ${data.aggressive === 'yes' ? '#E8749B' : 'inherit'};">具攻擊性：${mapBool(data.aggressive)}</span>
+                                            ${data.dislike_touch ? ' ／ 敏感部位：<strong style="color:#E8749B;">' + data.dislike_touch + '</strong>' : ''}
+                                        </div>
+                                    </div>
+                                    <div class="info-row">
+                                        <div class="info-label">過往病史</div>
+                                        <div class="info-value" style="color: ${data.has_medical_history === 'yes' ? '#E8749B' : 'inherit'};">
+                                            ${mapBool(data.has_medical_history)}${data.medical_history ? '：' + data.medical_history : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-<div style="background-color: #faf9f7; padding: 15px; border-radius: 8px; font-size: 13px; color: #666; margin-bottom: 20px; border: 1px solid #e5e0da;">
+                        <!-- 現場外觀檢查 -->
+                        <div style="padding: 0 24px 20px;">
+                            <div style="border-radius: 20px; overflow: hidden; border: 1.5px solid rgba(92,107,122,0.1);">
+                                <div style="background: #5C6B7A; padding: 10px 18px;">
+                                    <span style="color: white; font-size: 12px; font-weight: 700; letter-spacing: 1px;">👁️ 現場外觀檢查（目視）</span>
+                                </div>
+                                <div style="padding: 4px 18px 8px; background: white;">
+                                    <div class="info-row"><div class="info-label">眼睛</div><div class="info-value">${formatCheck(data.check_eye, data.eye_description)}</div></div>
+                                    <div class="info-row"><div class="info-label">耳朵</div><div class="info-value">${formatCheck(data.check_ear, data.ear_description)}</div></div>
+                                    <div class="info-row"><div class="info-label">牙齒</div><div class="info-value">${formatCheck(data.check_tooth, data.tooth_description)}</div></div>
+                                    <div class="info-row"><div class="info-label">四肢</div><div class="info-value">${formatCheck(data.check_limb, data.limb_description)}</div></div>
+                                    <div class="info-row"><div class="info-label">皮膚</div><div class="info-value">${formatCheck(data.check_skin, data.skin_description)}</div></div>
+                                    <div class="info-row"><div class="info-label">皮毛</div><div class="info-value">${formatCheck(data.check_fur, data.fur_description)}</div></div>
+                                </div>
+                            </div>
+                        </div>
 
-                            <div style="margin-bottom: 30px;">
-                                <h3 style="color: #4A3728; font-size: 14px; margin-bottom: 10px;">寵物美容定型化契約規範條款</h3>
-                                <div style="font-size: 11px; color: #888; background-color: #fafafa; border: 1px solid #eee; padding: 15px; border-radius: 8px; line-height: 1.8;">
-                                    <ol style="padding-left: 20px; margin: 0;">
-                                        <li>除本契約另有約定、特殊緊急情況、或不可抗力之情況外，未經飼主同意，店家不得將寵物帶離美容場所(同上店家地址)、轉售、轉讓或以其他變相方法作為其他用途。</li>
-                                        <li>飼主應於美容當日，將寵物領回，如經通知1日內未領回，依動保法第29條第一款通知主管機關，為飼主惡意棄養，相關罰金為3萬~15萬元，其他衍生性費用將跟飼主求償，例:人員加班費等。</li>
-                                        <li>寵物發生攻擊行為，如因飼主未善盡告知義務而造成店內人員傷亡、財物損毀等費用，將全額向飼主(寵物占有權人)求償。</li>
-                                        <li>店家應按本契約約定內容提供一定品質之美容服務。若因可歸責於店家或其受僱人之事由，導致其提供之美容服務有瑕疵，造成飼主發生損失的情況，飼主得要求減少價金或解除契約。</li>
-                                        <li>本契約之任一方得隨時終止本契約，若因本契約之中止而生損害之一方得向他方請求賠償。</li>
-                                        <li>於美容服務期間，如發現寵物有異常狀態，應立即通知飼主並妥善處理，如發生異常狀態的原因可歸責於店家之操作行為，店家應負損害賠償責任，例:摔傷寵物等。</li>
-                                        <li>因本契約所生之訴訟，雙方合意以地方法院為管轄法院。</li>
-                                        <li>美容契約相關法條，附件如店內張貼之公告，如有需求請自行拍照留存。</li>
-                                        <li style="color: #E68A4B; font-weight: bold; margin-top: 5px;">本人已詳閱並同意以上條款，且同意提供資料用於店家基本美容存檔及安全送醫通知。</li>
+                        <!-- 契約條款 -->
+                        <div style="padding: 0 24px 20px;">
+                            <div style="border-radius: 20px; overflow: hidden; border: 1.5px solid rgba(92,107,122,0.1);">
+                                <div style="background: #5C6B7A; padding: 10px 18px;">
+                                    <span style="color: white; font-size: 12px; font-weight: 700; letter-spacing: 1px;">📋 寵物美容定型化契約規範條款</span>
+                                </div>
+                                <div style="padding: 16px 18px; background: #FDFBF7;">
+                                    <ol style="padding-left: 18px; margin: 0; font-size: 11px; color: #5C6B7A; line-height: 1.9; space-y: 4px;">
+                                        <li style="margin-bottom: 6px;">除本契約另有約定、特殊緊急情況、或不可抗力之情況外，未經飼主同意，店家不得將寵物帶離美容場所(同上店家地址)、轉售、轉讓或以其他變相方法作為其他用途。</li>
+                                        <li style="margin-bottom: 6px;">飼主應於美容當日，將寵物領回，如經通知1日內未領回，依動保法第29條第一款通知主管機關，為飼主惡意棄養，相關罰金為3萬~15萬元，其他衍生性費用將跟飼主求償，例:人員加班費等。</li>
+                                        <li style="margin-bottom: 6px;">寵物發生攻擊行為，如因飼主未善盡告知義務而造成店內人員傷亡、財物損毀等費用，將全額向飼主(寵物占有權人)求償。</li>
+                                        <li style="margin-bottom: 6px;">店家應按本契約約定內容提供一定品質之美容服務。若因可歸責於店家或其受僱人之事由，導致其提供之美容服務有瑕疵，造成飼主發生損失的情況，飼主得要求減少價金或解除契約。</li>
+                                        <li style="margin-bottom: 6px;">本契約之任一方得隨時終止本契約，若因本契約之中止而生損害之一方得向他方請求賠償。</li>
+                                        <li style="margin-bottom: 6px;">於美容服務期間，如發現寵物有異常狀態，應立即通知飼主並妥善處理，如發生異常狀態的原因可歸責於店家之操作行為，店家應負損害賠償責任，例:摔傷寵物等。</li>
+                                        <li style="margin-bottom: 6px;">因本契約所生之訴訟，雙方合意以地方法院為管轄法院。</li>
+                                        <li style="margin-bottom: 6px;">美容契約相關法條，附件如店內張貼之公告，如有需求請自行拍照留存。</li>
+                                        <li style="color: #E8749B; font-weight: 700;">本人已詳閱並同意以上條款，且同意提供資料用於店家基本美容存檔及安全送醫通知。</li>
                                     </ol>
                                 </div>
                             </div>
+                        </div>
 
-                            <div style="margin-top: 40px; border-top: 2px dashed #eee; padding-top: 30px; text-align: center;">
-                                <div style="font-size: 14px; color: #888; margin-bottom: 10px; font-weight: bold;">甲方 (飼主) 數位具簽確認</div>
-                                
-                                <div style="display: inline-block; min-width: 250px; border-bottom: 2px solid #4A3728; padding-bottom: 10px; margin-bottom: 5px;">
-                                    <img src="${data.signature_data}" alt="電子簽名" style="max-height: 80px; max-width: 100%; display: block; margin: 0 auto;">
+                        <!-- 數位簽名 -->
+                        <div style="padding: 0 24px 28px;">
+                            <div style="border-radius: 20px; overflow: hidden; border: 1.5px solid rgba(232,116,155,0.3); background: white;">
+                                <div style="background: linear-gradient(90deg, #E8749B, #c25d7e); padding: 10px 18px;">
+                                    <span style="color: white; font-size: 12px; font-weight: 700; letter-spacing: 1px;">✍️ 甲方（飼主）數位簽名確認</span>
                                 </div>
-                                
-                                <div style="font-size: 12px; color: #aaa;">
-                                    數位簽署戳記時間：${data.signature_timestamp}
+                                <div style="padding: 20px 18px; text-align: center;">
+                                    <div style="display: inline-block; min-width: 260px; border-radius: 14px; border: 2px solid rgba(92,107,122,0.15); padding: 16px; background: #FDFBF7; margin-bottom: 12px;">
+                                        <img src="${data.signature_data}" alt="電子簽名" style="max-height: 90px; max-width: 100%; display: block; margin: 0 auto;">
+                                    </div>
+                                    <div style="font-size: 11px; color: #7A8E9C; background: #F0F2F4; display: inline-block; padding: 4px 14px; border-radius: 999px;">
+                                        🕐 數位簽署時間：${data.signature_timestamp}
+                                    </div>
                                 </div>
                             </div>
-
                         </div>
 
-                        <div style="background-color: #4A3728; color: #e0e0e0; padding: 20px; text-align: center; font-size: 12px; border-top: 4px solid #E68A4B;">
-                            <p style="margin: 0 0 5px 0;">© 2026 狗狗愛漂亮寵物美容坊 All Rights Reserved.</p>
-                            <p style="margin: 0; opacity: 0.6;">此信件由系統發出，為美容契約書成立之法定電子副本留底存證，請勿直接回覆。</p>
+                        <!-- 乙方資訊 -->
+                        <div style="padding: 0 24px 24px;">
+                            <div style="background: #F0F2F4; border-radius: 16px; padding: 14px 18px; font-size: 12px; color: #5C6B7A;">
+                                <div style="font-weight: 700; color: #3D4D5C; margin-bottom: 8px;">🏪 乙方（狗狗愛漂亮寵物美容坊）</div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>負責人</span><span style="font-weight: 600; color: #3D4D5C;">曾金幸</span></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>統一編號</span><span style="font-weight: 600; color: #3D4D5C;">30327593</span></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>地址</span><span style="font-weight: 600; color: #3D4D5C; text-align:right;">新竹市北區長和里愛文街116號</span></div>
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;"><span>營業時間</span><span style="font-weight: 600; color: #3D4D5C;">9:00 ～ 15:00（禮拜天公休）</span></div>
+                                <div style="margin-top: 10px; padding: 10px 12px; background: white; border-radius: 10px; border-left: 3px solid #E8749B;">
+                                    <div style="font-size: 10px; font-weight: 700; color: #E8749B; margin-bottom: 2px;">特約寵物醫院</div>
+                                    <div style="font-weight: 700; color: #3D4D5C;">信安動物醫院</div>
+                                    <div style="font-size: 11px; color: #7A8E9C;">新竹市東區文華里民權路 242 號</div>
+                                </div>
+                            </div>
                         </div>
+
+                        <!-- Footer -->
+                        <div style="background: linear-gradient(135deg, #3D4D5C 0%, #5C6B7A 100%); padding: 20px 24px; text-align: center; border-top: 3px solid #E8749B;">
+                            <div style="color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 700; margin-bottom: 6px;">🐾 狗狗愛漂亮寵物美容坊</div>
+                            <div style="color: rgba(255,255,255,0.5); font-size: 11px; line-height: 1.7;">© 2026 All Rights Reserved.<br>此為美容契約書成立之法定電子副本留底存證，請勿直接回覆此信件。</div>
+                        </div>
+
                     </div>
                 </body>
                 </html>
@@ -2302,7 +2418,7 @@
 
                     window.addEventListener('load', async () => {
                         try {
-                            const registration = await navigator.serviceWorker.register('./sw.js?v=2');
+                            const registration = await navigator.serviceWorker.register('./sw.js?v=3');
 
                             if (registration.waiting) {
                                 this.showUpdatePrompt(registration.waiting);
@@ -2381,5 +2497,86 @@
             </button>
         </div>
     </div>
+<script>
+// --- 1. Service Worker 註冊與自動更新流程 ---
+(function() {
+    if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+            navigator.serviceWorker.register("/sw.js").then(reg => {
+                reg.addEventListener("updatefound", () => {
+                    const newWorker = reg.installing;
+                    if (!newWorker) return;
+
+                    newWorker.addEventListener("statechange", () => {
+                        // state === installed 且已有舊 controller，表示有新版本且已下載完成
+                        if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+                            if (reg.waiting) {
+                                // 因排除舊有 Toast，此處改用原生 confirm 提示使用者
+                                if (confirm("✅ 偵測到新版本，是否立即重新整理以套用最新版本？")) {
+                                    reg.waiting.postMessage({ type: "SKIP_WAITING" });
+                                    window.location.reload();
+                                }
+                            }
+                        }
+                    });
+                });
+
+                // 主動定期檢查更新（30 分鐘一次）
+                setInterval(() => {
+                    reg.update().catch(() => {});
+                }, 30 * 60 * 1000);
+
+                // 首次也更新一次（避免太久才更新）
+                reg.update().catch(() => {});
+
+            }).catch(err => {
+                console.warn("Service Worker 註冊失敗：", err);
+            });
+        });
+    }
+})();
+
+// --- 2. 行動端：輸入框自動捲到可視區（避免鍵盤擋住） ---
+document.querySelectorAll("input, textarea, select").forEach(el => {
+    el.addEventListener("focus", (e) => {
+        setTimeout(() => {
+            e.target.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 300);
+    });
+});
+
+// --- 更新後的 Supabase Edge Function 信件發送機制 ---
+async function sendResendEmail(customerEmail, customerName, petName, htmlContent) {
+    try {
+        // 1. 確保 URL 是正確的函數路徑 (請確認您的 Function 名稱是否為 send-mail)
+        const supabaseUrl = "https://wcfbcayehdwwphymcwmh.supabase.co";
+        
+        // 2. 呼叫我們剛剛部署好的 Edge Function
+        const response = await fetch(`${supabaseUrl}/functions/v1/send-mail`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                to: customerEmail,
+                petNames: petName,
+                html: htmlContent // 這裡傳入完整的郵件內容
+            }),
+        });
+
+        const result = await response.json();
+        
+        if (!response.ok) {
+            throw new Error(result.error || "發送失敗");
+        }
+
+        console.log("信件發送成功:", result);
+        return result;
+    } catch (error) {
+        console.error("發送郵件時發生錯誤:", error);
+        throw error;
+    }
+}
+</script>
 </body>
 </html>
