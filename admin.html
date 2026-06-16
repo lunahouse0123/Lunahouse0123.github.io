@@ -1041,7 +1041,7 @@ if(window.lucide) lucide.createIcons();
 
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("/sw.js?v=9", { scope: "/" });
+      const reg = await navigator.serviceWorker.register("/sw.js?v=10", { scope: "/" });
 
       // 只要 SW 控制權換人（新 SW 啟用），就重新整理到新版本
       let refreshing = false;
