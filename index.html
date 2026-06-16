@@ -584,11 +584,11 @@
                                 <label>性別<span class="text-theme-orange">*</span></label>
                                 <div class="flex gap-2 radio-btn-group">
                                     <label class="flex-1 cursor-pointer">
-                                        <input type="radio" name="sex" value="male" class="hidden" required>
+                                        <input type="radio" name="sex" value="公" class="hidden" required>
                                         <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">公</div>
                                     </label>
                                     <label class="flex-1 cursor-pointer">
-                                        <input type="radio" name="sex" value="female" class="hidden">
+                                        <input type="radio" name="sex" value="母" class="hidden">
                                         <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">母</div>
                                     </label>
                                 </div>
@@ -597,11 +597,11 @@
                                 <label>結紮<span class="text-theme-orange">*</span></label>
                                 <div class="flex gap-2 radio-btn-group">
                                     <label class="flex-1 cursor-pointer">
-                                        <input type="radio" name="neutered" value="yes" class="hidden" required>
+                                        <input type="radio" name="neutered" value="是" class="hidden" required>
                                         <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">是</div>
                                     </label>
                                     <label class="flex-1 cursor-pointer">
-                                        <input type="radio" name="neutered" value="no" class="hidden">
+                                        <input type="radio" name="neutered" value="否" class="hidden">
                                         <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">否</div>
                                     </label>
                                 </div>
@@ -613,11 +613,11 @@
                                 <label>親人<span class="text-theme-orange">*</span></label>
                                 <div class="flex gap-2 radio-btn-group">
                                     <label class="flex-1 cursor-pointer">
-                                        <input type="radio" name="friendlyToPeople" value="yes" class="hidden" required>
+                                        <input type="radio" name="friendlyToPeople" value="是" class="hidden" required>
                                         <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">是</div>
                                     </label>
                                     <label class="flex-1 cursor-pointer">
-                                        <input type="radio" name="friendlyToPeople" value="no" class="hidden">
+                                        <input type="radio" name="friendlyToPeople" value="否" class="hidden">
                                         <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">否</div>
                                     </label>
                                 </div>
@@ -626,11 +626,11 @@
                                 <label>親狗<span class="text-theme-orange">*</span></label>
                                 <div class="flex gap-2 radio-btn-group">
                                     <label class="flex-1 cursor-pointer">
-                                        <input type="radio" name="friendlyToDogs" value="yes" class="hidden" required>
+                                        <input type="radio" name="friendlyToDogs" value="是" class="hidden" required>
                                         <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">是</div>
                                     </label>
                                     <label class="flex-1 cursor-pointer">
-                                        <input type="radio" name="friendlyToDogs" value="no" class="hidden">
+                                        <input type="radio" name="friendlyToDogs" value="否" class="hidden">
                                         <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">否</div>
                                     </label>
                                 </div>
@@ -641,11 +641,11 @@
                             <label class="text-theme-brown">具攻擊性<span class="text-theme-orange">*</span></label>
                             <div class="flex gap-2 radio-btn-group">
                                 <label class="flex-1 cursor-pointer">
-                                    <input type="radio" name="aggressive" value="yes" class="hidden" required>
+                                    <input type="radio" name="aggressive" value="是" class="hidden" required>
                                     <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">是</div>
                                 </label>
                                 <label class="flex-1 cursor-pointer">
-                                    <input type="radio" name="aggressive" value="no" class="hidden">
+                                    <input type="radio" name="aggressive" value="否" class="hidden">
                                     <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">否</div>
                                 </label>
                             </div>
@@ -658,11 +658,11 @@
                             <label>過往病史<span class="text-theme-orange">*</span></label>
                             <div class="flex gap-2 radio-btn-group mb-2">
                                 <label class="flex-1 cursor-pointer">
-                                    <input type="radio" name="hasMedicalHistory" value="yes" class="hidden" required>
+                                    <input type="radio" name="hasMedicalHistory" value="有" class="hidden" required>
                                     <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">有</div>
                                 </label>
                                 <label class="flex-1 cursor-pointer">
-                                    <input type="radio" name="hasMedicalHistory" value="no" class="hidden">
+                                    <input type="radio" name="hasMedicalHistory" value="無" class="hidden">
                                     <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-400">無</div>
                                 </label>
                             </div>
@@ -985,10 +985,10 @@
                     </div>
                 </section>
 
-                <button id="submitBtn" type="submit" disabled class="w-full bg-theme-brown text-white py-4 font-bold shadow-lg shadow-theme-brown/15 tracking-widest text-lg opacity-50 transition-all flex items-center justify-center gap-2 hover:bg-theme-brownLight" style="border-radius:28px;">
-                    <span id="submitBtnText">確認並提交</span>
-                    <div id="submitBtnSpinner" class="loading-spinner hidden"></div>
-                </button>
+<button id="submitBtn" type="submit" disabled class="w-full bg-theme-brown text-white py-4 font-bold shadow-lg shadow-theme-brown/15 tracking-widest text-lg opacity-50 transition-all flex items-center justify-center gap-2 hover:bg-theme-brownLight active:scale-[0.98]" style="border-radius:28px;">
+    <span id="submitBtnText">確認並提交</span>
+    <div id="submitBtnSpinner" class="loading-spinner hidden"></div>
+</button>
                 <div class="h-12"></div>
             </form>
         </div>
@@ -1369,12 +1369,21 @@
                 }, 300);
             },
    
-            // 輔助函數：設定 Radio 按鈕的值
+            // 輔助函數：設定 Radio 按鈕的值（兼容舊客英文紀錄與新版中文）
             setRadioValue: function(name, value) {
                 if (!value) return;
+                
+                // 將舊版英文對應為中文，讓舊客資料也能正確選取
+                const dict = { 'male': '公', 'female': '母', 'yes': '是', 'no': '否' };
+                if (name === 'hasMedicalHistory') {
+                    dict['yes'] = '有';
+                    dict['no'] = '無';
+                }
+                const mappedValue = dict[value] || value;
+
                 const radios = document.querySelectorAll(`input[name="${name}"]`);
                 radios.forEach(radio => {
-                    if (radio.value === value) {
+                    if (radio.value === mappedValue) {
                         radio.checked = true;
                     }
                 });
@@ -1657,8 +1666,7 @@
                 form.querySelectorAll('.shake-error').forEach(el => el.classList.remove('shake-error'));
                 document.getElementById('btn-open-pad').classList.remove('border-red-500', 'animate-pulse');
                 
-                const oldDebugBtn = document.getElementById('debug-report-btn');
-                if (oldDebugBtn) oldDebugBtn.remove();
+                
 
                 const friendlyNames = {
                     ownerName: '飼主姓名',
@@ -1708,7 +1716,7 @@
                     errors.push({ element: document.getElementById('chipInput'), friendlyName: '晶片號碼', reason: '選擇「有晶片」時，號碼為必填' });
                 }
 
-                if (form.querySelector('input[name="hasMedicalHistory"]:checked')?.value === 'yes' && form.querySelector('input[name="medicalHistory"]').value.trim() === '') {
+                if (form.querySelector('input[name="hasMedicalHistory"]:checked')?.value === '有' && form.querySelector('input[name="medicalHistory"]').value.trim() === '') {
                     errors.push({ element: form.querySelector('input[name="medicalHistory"]'), friendlyName: '過往病史描述', reason: '選擇「有」時，描述為必填' });
                 }
                 
@@ -1738,7 +1746,6 @@
                     });
                     
                     this.showValidationErrorToast(uniqueErrors);
-                    this.createDebugButton(uniqueErrors);
 
                     const firstErrorElement = uniqueErrors[0].element;
                     firstErrorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -1760,43 +1767,7 @@
                 this.showToast(messageHtml, 'error', 10000); 
             },
 
-            // 偵錯功能回報（轉信至網頁開發維護窗口）
-            createDebugButton: function(errors) {
-                const form = document.getElementById('contractForm');
-                const formData = new FormData(form);
-                let report = "狗狗愛漂亮契約表單偵錯回報\n";
-                report += "=========================\n";
-                report += `回報時間: ${new Date().toLocaleString('zh-TW')}\n`;
-                report += "-------------------------\n";
-                report += "表單填寫內容:\n";
-                
-                for (let [key, value] of formData.entries()) {
-                    report += `- ${key}: ${value}\n`;
-                }
-
-                report += "-------------------------\n";
-                report += "系統判定的錯誤項目:\n";
-                errors.forEach(error => {
-                    report += `- ${error.friendlyName} (原因: ${error.reason})\n`;
-                });
-                report += "=========================\n";
-
-                const button = document.createElement('button');
-                button.id = 'debug-report-btn';
-                button.className = "w-full mt-4 bg-red-500 text-white py-3 rounded-xl font-bold flex items-center justify-center gap-2 shadow-lg";
-                button.innerHTML = `<i data-lucide="mail" class="w-5 h-5"></i> 點此回報系統填寫問題`;
-                
-                // 開發柴工作室技術維護信箱，同時知會該寵物店備用窗口
-                const primaryEmail = 'contact@shibastudio.online';
-                const ccEmail = 'your_client_backup@gmail.com'; // 可改為狗狗愛漂亮實際信箱
-                const subject = '狗狗愛漂亮契約表單問題回報';
-                
-                const mailtoLink = `mailto:${primaryEmail}?cc=${ccEmail}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(report)}`;
-
-                button.onclick = () => { window.location.href = mailtoLink; };
-                form.querySelector('#submitBtn').before(button);
-                lucide.createIcons();
-            },
+            
 
             showToast: function(message, type = 'info', duration = 5000) {
                 const toastContainer = document.getElementById('toast-container');
@@ -1846,25 +1817,42 @@
             handleFormSubmit: async function(event) {
                 event.preventDefault();
                 
+                // 防止重複提交 - 如果按鈕已 disabled 則直接返回
+                const submitBtn = document.getElementById('submitBtn');
+                if (submitBtn.disabled) {
+                    this.showToast('資料正在儲存中，請稍候...', 'warning');
+                    return;
+                }
+                
                 if (!this.validateForm()) {
                     this.showToast('請填寫所有必填欄位並完成簽名', 'error');
                     return;
                 }
 
-                const submitBtn = document.getElementById('submitBtn');
                 const submitBtnText = document.getElementById('submitBtnText');
                 const submitBtnSpinner = document.getElementById('submitBtnSpinner');
                 
+                // 儲存按鈕狀態
+                const originalText = submitBtnText.textContent;
+                
+                // 進入提交狀態 - 完整視覺回饋
                 submitBtn.disabled = true;
-                submitBtnText.textContent = '提交中...';
+                submitBtn.classList.add('opacity-50');
+                submitBtn.classList.remove('opacity-100');
+                submitBtnText.textContent = '📤 資料儲存中...';
                 submitBtnSpinner.classList.remove('hidden');
+                
+                // 顯示進度提示
+                this.showToast('正在儲存契約資料，請勿關閉頁面...', 'info', 3000);
 
                 try {
+                    // 步驟 1: 上傳簽名
                     const base64Sign = document.getElementById('signature-data').value;
                     let signatureUrl = ""; 
 
                     if (base64Sign && base64Sign.startsWith('data:image')) {
-                        this.showToast('正在上傳簽名檔...', 'info');
+                        submitBtnText.textContent = '📤 上傳簽名中...';
+                        this.showToast('正在上傳簽名檔...', 'info', 2000);
                         try {
                             signatureUrl = await this.uploadSignatureToStorage(base64Sign);
                         } catch (uploadErr) {
@@ -1873,6 +1861,8 @@
                         }
                     }
 
+                    // 步驟 2: 收集表單資料
+                    submitBtnText.textContent = '📤 準備資料中...';
                     const formData = new FormData(document.getElementById('contractForm'));
                     
                     const services = [];
@@ -1883,8 +1873,8 @@
                     const contractData = {
                         owner_name: formData.get('ownerName'),
                         owner_email: (formData.get('ownerEmail') && formData.get('ownerEmail') !== '無') 
-                                     ? formData.get('ownerEmail') 
-                                     : 'your_client_backup@gmail.com', // 預設改為新客戶接收端或防呆信箱
+                                     ? formData.get('ownerEmail').trim()
+                                     : '',
                         owner_id: formData.get('ownerId'),                        
                         owner_phone: formData.get('ownerPhone'),
                         owner_address: formData.get('ownerAddress'),
@@ -1932,6 +1922,10 @@
                         signature_timestamp: document.getElementById('sig-timestamp').innerText
                     };
 
+                    // 步驟 3: 儲存到 Supabase
+                    submitBtnText.textContent = '📤 儲存契約中...';
+                    this.showToast('正在儲存契約，請稍候...', 'info', 3000);
+
                     const { data, error } = await this.supabase
                         .from('contracts')
                         .insert([contractData])
@@ -1939,39 +1933,85 @@
 
                     if (error) throw error;
 
-                    // 智能判斷：是否有真實客戶信箱（排除備用/佔位信箱）
-                    const rawEmail = formData.get('ownerEmail') || '';
+                    // 智能判斷：是否有真實客戶信箱
                     const isNoEmail = document.getElementById('noEmailCheck')?.checked;
-                    const customerEmail = (!isNoEmail && rawEmail && rawEmail !== '無') ? rawEmail.trim() : '';
+                    const customerEmail = contractData.owner_email;
                     const hasEmail = !!customerEmail;
 
-                    // 無論有沒有填信箱，都呼叫 Edge Function 寄信給店家
-                    this.supabase.functions.invoke('send-mail', {
-                        body: {
-                            to: customerEmail,           // 有填則寄客人，沒填傳空字串讓 Function 只寄店家
-                            petNames: contractData.pet_name,
-                            html: this.generateEmailHTML(contractData)
-                        }
-                    }).then(({ error, data }) => {
-                        if (error) console.error('Email 發送失敗:', error);
-                        else console.log('Email 發送成功:', data);
+                    // 先顯示成功頁，再發信（避免發信失敗卡住流程）
+                    this.lastContractData = contractData;
+                    
+                    // 成功提示
+                    this.showToast('✅ 契約儲存成功！', 'success');
+                    
+                    // 步驟 4: 轉跳成功頁面
+                    submitBtnText.textContent = '✅ 完成！';
+                    await new Promise(r => setTimeout(r, 300)); // 短暫停頓讓使用者看到完成狀態
+                    
+                    this.showDownloadPage(contractData, hasEmail);
+
+                    // 非同步發信，失敗只 console，不影響使用者體驗
+                    const emailPayload = JSON.stringify({
+                        to: customerEmail,
+                        petNames: contractData.pet_name,
+                        subject: `【狗狗愛漂亮】寵物美容契約副本 - ${contractData.pet_name || '毛孩'}`,
+                        html: this.generateEmailHTML(contractData)
                     });
 
-                    this.lastContractData = contractData; 
-                    this.showToast('契約已成功提交！', 'success');
-                    this.showDownloadPage(contractData, hasEmail);
+                    fetch('https://wcfbcayehdwwphymcwmh.supabase.co/functions/v1/resend-email', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjZmJjYXllaGR3d3BoeW1jd21oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5NDk3MDEsImV4cCI6MjA5NTUyNTcwMX0.TFsa6KMqm7PUXR5vLYxAM3LyEgpFh4uFINkSK8Xjuhk',
+                            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndjZmJjYXllaGR3d3BoeW1jd21oIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk5NDk3MDEsImV4cCI6MjA5NTUyNTcwMX0.TFsa6KMqm7PUXR5vLYxAM3LyEgpFh4uFINkSK8Xjuhk'
+                        },
+                        body: emailPayload
+                    })
+                    .then(res => res.text())
+                    .then(text => {
+                        let result = {};
+                        try { result = JSON.parse(text || '{}'); } catch(e) { result = {}; }
+                        if (result.success) console.log('Email 發送成功:', result);
+                        else console.error('Email 發送失敗:', result.error || result);
+                    })
+                    .catch(err => console.error('Email fetch 錯誤:', err));
                     
                     document.getElementById('contractForm').reset();
-                    localStorage.removeItem('dogbeauty_contract_draft'); // 修正本地暫存鍵名以區隔新舊客環境
+                    localStorage.removeItem('dogbeauty_contract_draft');
                     this.resetSignature();
                     
                 } catch (error) {
                     console.error('提交錯誤:', error);
-                    this.showToast('提交失敗，請稍後再試', 'error');
-                } finally {
-                    submitBtn.disabled = false;
+                    
+                    // 錯誤狀態視覺回饋
+                    submitBtnText.textContent = '❌ 提交失敗';
+                    submitBtn.classList.add('bg-red-500');
+                    submitBtn.classList.remove('bg-theme-brown');
+                    
+                    this.showToast('提交失敗：' + (error.message || '請稍後再試'), 'error');
+                    
+                    // 3秒後恢復按鈕狀態
+                    await new Promise(r => setTimeout(r, 3000));
+                    submitBtn.classList.remove('bg-red-500');
+                    submitBtn.classList.add('bg-theme-brown');
                     submitBtnText.textContent = '確認並提交';
-                    submitBtnSpinner.classList.add('hidden');
+                    
+                } finally {
+                    // 還原按鈕狀態（但如果已轉跳成功頁，按鈕可能已不存在）
+                    const finalBtn = document.getElementById('submitBtn');
+                    if (finalBtn) {
+                        finalBtn.disabled = false;
+                        finalBtn.classList.remove('opacity-50');
+                        finalBtn.classList.add('opacity-100');
+                        const finalText = document.getElementById('submitBtnText');
+                        if (finalText && !finalText.textContent.includes('完成')) {
+                            finalText.textContent = '確認並提交';
+                        }
+                        const finalSpinner = document.getElementById('submitBtnSpinner');
+                        if (finalSpinner) {
+                            finalSpinner.classList.add('hidden');
+                        }
+                    }
                 }
             },
 
@@ -2084,8 +2124,15 @@
                 }
             },
 
-            // 輔助函數：生成 Email / 開啟完整契約專用之 HTML 內容
+            // 輔助函數：生成 Email 專用輕量版 HTML（移除 base64 簽名，改用 Storage URL）
             generateEmailHTML: function(data) {
+                // 若 signature_data 是 base64，替換為已上傳的 Storage URL
+                const emailData = Object.assign({}, data);
+                if (emailData.signature_data && emailData.signature_data.startsWith('data:image')) {
+                    emailData.signature_data = ''; // base64 太大，Email 版本留空
+                }
+                data = emailData;
+
                 const mapBool = (val) => val === 'yes' ? '是' : (val === 'no' ? '否' : val);
                 const mapSex = (val) => val === 'male' ? '公' : (val === 'female' ? '母' : val);
                 const mapChip = (status, num) => status === 'has' ? `有 (${num})` : (status === 'unknown' ? '有 (號碼不詳)' : '無');
@@ -2223,13 +2270,13 @@
                                         <div class="info-label">結紮 / 性格</div>
                                         <div class="info-value">
                                             結紮：${mapBool(data.neutered)} ／ 親人：${mapBool(data.friendly_to_people)} ／ 親狗：${mapBool(data.friendly_to_dogs)}<br>
-                                            <span style="color: ${data.aggressive === 'yes' ? '#E8749B' : 'inherit'};">具攻擊性：${mapBool(data.aggressive)}</span>
+                                            <span style="color: ${data.aggressive === 'yes' || data.aggressive === '是' ? '#E8749B' : 'inherit'};">具攻擊性：${mapBool(data.aggressive)}</span>
                                             ${data.dislike_touch ? ' ／ 敏感部位：<strong style="color:#E8749B;">' + data.dislike_touch + '</strong>' : ''}
                                         </div>
                                     </div>
                                     <div class="info-row">
                                         <div class="info-label">過往病史</div>
-                                        <div class="info-value" style="color: ${data.has_medical_history === 'yes' ? '#E8749B' : 'inherit'};">
+                                        <div class="info-value" style="color: ${data.has_medical_history === 'yes' || data.has_medical_history === '有' ? '#E8749B' : 'inherit'};">
                                             ${mapBool(data.has_medical_history)}${data.medical_history ? '：' + data.medical_history : ''}
                                         </div>
                                     </div>
@@ -2284,7 +2331,10 @@
                                 </div>
                                 <div style="padding: 20px 18px; text-align: center;">
                                     <div style="display: inline-block; min-width: 260px; border-radius: 14px; border: 2px solid rgba(92,107,122,0.15); padding: 16px; background: #FDFBF7; margin-bottom: 12px;">
-                                        <img src="${data.signature_data}" alt="電子簽名" style="max-height: 90px; max-width: 100%; display: block; margin: 0 auto;">
+                                        ${data.signature_data
+                                            ? `<img src="${data.signature_data}" alt="電子簽名" style="max-height: 90px; max-width: 100%; display: block; margin: 0 auto;">`
+                                            : `<div style="text-align:center; color:#7A8E9C; font-size:13px; padding: 10px 0;">✍️ 簽名已完成（請至後台 Supabase 查看原始記錄）</div>`
+                                        }
                                     </div>
                                     <div style="font-size: 11px; color: #7A8E9C; background: #F0F2F4; display: inline-block; padding: 4px 14px; border-radius: 999px;">
                                         🕐 數位簽署時間：${data.signature_timestamp}
@@ -2418,7 +2468,7 @@
 
                     window.addEventListener('load', async () => {
                         try {
-                            const registration = await navigator.serviceWorker.register('./sw.js?v=3');
+                            const registration = await navigator.serviceWorker.register('./sw.js?v=4');
 
                             if (registration.waiting) {
                                 this.showUpdatePrompt(registration.waiting);
@@ -2552,7 +2602,7 @@ async function sendResendEmail(customerEmail, customerName, petName, htmlContent
         const supabaseUrl = "https://wcfbcayehdwwphymcwmh.supabase.co";
         
         // 2. 呼叫我們剛剛部署好的 Edge Function
-        const response = await fetch(`${supabaseUrl}/functions/v1/send-mail`, {
+        const response = await fetch(`${supabaseUrl}/functions/v1/resend-email`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
