@@ -650,16 +650,27 @@ function renderRecords(){
     const p=r.payload||{};
     const div=document.createElement("div");
     div.className="rounded-2xl border border-hanamu-green/15 bg-white p-4 shadow-soft cursor-pointer";
+// 判斷影像授權狀態
+const imageConsent = r.image_consent || p.image_consent || '';
+const isConsent = imageConsent === '同意';
+const isDisagree = imageConsent === '不同意';
+const consentBadge = isConsent 
+  ? `<span class="badge b-confirmed" style="font-size:9px;padding:2px 8px;">📸 已授權</span>` 
+  : isDisagree 
+    ? `<span class="badge b-cancelled" style="font-size:9px;padding:2px 8px;">📸 未授權</span>` 
+    : '';
+
 div.innerHTML = `
   <div class="flex justify-between items-start gap-3">
     <div>
       <div class="text-[10px] text-hanamu-wood font-bold mb-1">${fmtTW(r.created_at)}</div>
       <div class="text-xl font-black">${r.pet_name||p.pet_name||"-"}</div>
       <div class="text-xs text-hanamu-wood mt-1">${p.owner_name||"-"} ｜ ${r.owner_phone||"-"}</div>
-        <div class="text-xs text-hanamu-wood mt-1">服務：${p.service_type||"-"}</div>
+      <div class="text-xs text-hanamu-wood mt-1">服務：${p.service_type||"-"}</div>
     </div>
     <div class="text-right">
-      <div class="${badgeClass(r.status||"pending")}">${badgeText(r.status||"pending")}</div>
+      ${consentBadge}
+      <div class="${badgeClass(r.status||"pending")} mt-1">${badgeText(r.status||"pending")}</div>
     </div>
   </div>
 `;
@@ -736,11 +747,17 @@ function openCustomerModal(phone){
     const p=r.payload||{};
     const div=document.createElement("div");
     div.className="rounded-xl border border-hanamu-green/10 p-3 bg-white cursor-pointer hover:border-hanamu-green transition";
-    div.innerHTML = `
-      <div class="font-black">${p.pet_name||"-"}</div>
-      <div class="text-xs text-hanamu-wood">${p.service_type||"-"}</div>
-      <div class="text-[10px] text-hanamu-wood">${fmtTW(r.created_at).slice(0,10)}</div>
-    `;
+const consent = r.image_consent || p.image_consent || '';
+const consentIcon = consent === '同意' ? '✅' : consent === '不同意' ? '❌' : '';
+
+div.innerHTML = `
+  <div class="font-black">${p.pet_name||"-"}</div>
+  <div class="text-xs text-hanamu-wood">${p.service_type||"-"}</div>
+  <div class="text-[10px] text-hanamu-wood flex items-center justify-between">
+    <span>${fmtTW(r.created_at).slice(0,10)}</span>
+    <span class="${consent === '同意' ? 'text-green-600' : consent === '不同意' ? 'text-red-500' : 'text-gray-300'}">${consentIcon}</span>
+  </div>
+`;
     div.onclick=()=>{ closeCustomerModal(); openDetail(r.id); };
     container.appendChild(div);
   });
@@ -787,6 +804,14 @@ $("detailPet").innerHTML = `
   <div class="kv"><span>病史說明</span><span>${p.history_notes||"-"}</span></div>
 `;
 
+// 影像授權狀態顯示
+const imageConsent = r.image_consent || p.image_consent || '';
+const consentDisplay = imageConsent === '同意' 
+  ? `<span class="badge b-confirmed">✅ 同意授權</span>` 
+  : imageConsent === '不同意' 
+    ? `<span class="badge b-cancelled">❌ 不同意授權 <span class="text-[10px] font-normal text-red-500 ml-1">(請留意勿使用其影像)</span></span>` 
+    : `<span class="badge" style="background:#E5E0DA;color:#7A8E9C;">未填寫</span>`;
+
 $("detailService").innerHTML = `
   <div class="section-title">服務內容</div>
   <div class="kv"><span>服務日期</span><span>${p.service_date||"-"}</span></div>
@@ -796,6 +821,10 @@ $("detailService").innerHTML = `
   <div class="kv"><span>預計接回時間</span><span>${p.pickup_time||"-"}</span></div>
   <div class="kv"><span>支付方式</span><span>${p.payment||"-"}${p.other_payment?` (${p.other_payment})`:""}</span></div>
   <div class="kv"><span>支付金額</span><span>NT$ ${p.amount?Number(p.amount).toLocaleString():"-"}</span></div>
+  <div class="kv" style="border-bottom: 2px solid rgba(92,107,122,0.15); padding-bottom: 8px; margin-top: 4px;">
+    <span>📸 影像授權</span>
+    <span>${consentDisplay}</span>
+  </div>
 `;
 
 $("detailHealth").innerHTML = `
@@ -1041,7 +1070,7 @@ if(window.lucide) lucide.createIcons();
 
   window.addEventListener("load", async () => {
     try {
-      const reg = await navigator.serviceWorker.register("/sw.js?v=10", { scope: "/" });
+      const reg = await navigator.serviceWorker.register("/sw.js?v=11", { scope: "/" });
 
       // 只要 SW 控制權換人（新 SW 啟用），就重新整理到新版本
       let refreshing = false;

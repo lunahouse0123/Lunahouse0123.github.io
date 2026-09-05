@@ -852,10 +852,115 @@
                     </div>
                 </section>
 
-                <section class="glass-panel p-5">
-                    <h3 class="flex items-center gap-2 text-theme-brown font-bold text-base mb-4 pb-2 border-b border-gray-100">
-                        <i data-lucide="wallet" class="w-4 h-4"></i> 支付資訊
-                    </h3>
+<section class="glass-panel p-5">
+    <h3 class="flex items-center gap-2 text-theme-brown font-bold text-base mb-4 pb-2 border-b border-gray-100">
+        <i data-lucide="wallet" class="w-4 h-4"></i> 支付資訊
+    </h3>
+    <div class="space-y-4">
+        <div>
+            <label>支付方式<span class="text-theme-orange">*</span></label>
+            <div class="space-y-2 mt-2">
+                <div class="flex gap-2 radio-btn-group">
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="payment" value="現金" class="hidden" required>
+                        <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-500 hover:border-theme-orange transition-all">現金</div>
+                    </label>
+                    <label class="flex-1 cursor-pointer">
+                        <input type="radio" name="payment" value="LinePay" class="hidden">
+                        <div class="py-2 text-center border rounded-lg text-sm font-bold text-gray-500 hover:border-theme-orange flex items-center justify-center gap-2 transition-all">
+                            <img src="linepay.png" alt="LinePay" class="h-4 object-contain" onerror="this.style.display='none'; this.nextElementSibling.innerText='LinePay'">
+                            <span></span>
+                        </div>
+                    </label>
+                </div>
+                <div class="flex items-center gap-2 radio-btn-group">
+                    <label class="cursor-pointer shrink-0">
+                        <input type="radio" name="payment" value="其他" class="hidden">
+                        <div class="px-4 py-2 border rounded-lg text-sm font-bold text-gray-500 hover:border-theme-orange">其他</div>
+                    </label>
+                    <input type="text" name="otherPayment" class="input-minimal py-2" placeholder="請輸入其他方式">
+                </div>
+            </div>
+        </div>
+        <div>
+            <label>支付金額<span class="text-theme-orange">*</span></label>
+            <div class="relative mt-1">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-sm">$NT</span>
+                <input type="number" name="amount" class="input-minimal pl-12 text-lg font-bold text-theme-brown" placeholder="輸入金額" required min="0">
+                <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 font-bold text-sm">元</span>
+            </div>
+            <p class="text-xs text-theme-sub mt-2 font-bold leading-relaxed">
+                <i data-lucide="alert-circle" class="w-3 h-3 inline text-theme-orange mr-1"></i>
+                此金額為基礎報價，若現場發現嚴重打結、寄生蟲等特殊狀況，將另行告知加價。
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- ✅ 服務規範與影像授權 -->
+<section class="glass-panel p-5 border-2 transition-all duration-300" id="image-consent-section">
+    <h3 class="flex items-center gap-2 text-theme-brown font-bold text-base mb-4 pb-2 border-b border-gray-100">
+        <i data-lucide="camera" class="w-4 h-4"></i> 服務規範與影像授權
+        <span class="ml-auto text-[10px] font-bold text-theme-orange bg-theme-orangeSoft/50 px-2.5 py-0.5 rounded-full">必選</span>
+    </h3>
+    
+    <div class="space-y-4">
+        <!-- 條款內容 -->
+        <div class="bg-theme-brown/[0.03] p-4 rounded-xl border border-theme-brown/8">
+            <p class="text-sm text-theme-sub leading-relaxed">
+                本人已詳閱並同意本店之服務規範。同時同意本店於服務期間拍攝寵物之影像（含照片、影片），並無償授權本店運用於官方社群、作品集展示及店家宣傳行銷之用（涉及飼主個資或隱私處將主動遮蔽）。
+            </p>
+        </div>
+
+        <!-- 同意 / 不同意 按鈕 -->
+        <div class="flex gap-3">
+            <label class="flex-1 cursor-pointer" id="consent-yes-label">
+                <input type="radio" name="image_consent" value="同意" class="sr-only peer" required>
+                <div class="py-3 text-center border-2 rounded-xl text-sm font-bold text-gray-400 border-gray-200 bg-white transition-all peer-checked:border-green-400 peer-checked:bg-green-50 peer-checked:text-green-600 hover:border-green-300 hover:bg-green-50/50">
+                    <span class="flex items-center justify-center gap-2">
+                        <i data-lucide="check-circle" class="w-4 h-4 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                        ✅ 同意授權
+                    </span>
+                </div>
+            </label>
+            <label class="flex-1 cursor-pointer" id="consent-no-label">
+                <input type="radio" name="image_consent" value="不同意" class="sr-only peer" required>
+                <div class="py-3 text-center border-2 rounded-xl text-sm font-bold text-gray-400 border-gray-200 bg-white transition-all peer-checked:border-red-400 peer-checked:bg-red-50 peer-checked:text-red-500 hover:border-red-300 hover:bg-red-50/50">
+                    <span class="flex items-center justify-center gap-2">
+                        <i data-lucide="x-circle" class="w-4 h-4 opacity-0 peer-checked:opacity-100 transition-opacity"></i>
+                        ❌ 不同意
+                    </span>
+                </div>
+            </label>
+        </div>
+
+        <!-- 不同意時顯示的提示 -->
+        <div id="consent-disagree-notice" class="hidden animate-slide-up">
+            <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center shrink-0 mt-0.5">
+                    <i data-lucide="alert-triangle" class="w-4 h-4 text-amber-600"></i>
+                </div>
+                <div>
+                    <p class="text-sm font-bold text-amber-800">📸 已選擇「不同意」影像授權</p>
+                    <p class="text-xs text-amber-700 leading-relaxed mt-1">
+                        感謝您的選擇！為確保我們不會誤用您的寵物影像，<br>
+                        請您 <span class="font-bold text-amber-900">主動告知店家</span> 您不同意影像授權，以便我們妥善記錄。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 同意時顯示的確認 -->
+        <div id="consent-agree-notice" class="hidden animate-slide-up">
+            <div class="bg-green-50 border border-green-200 rounded-xl p-3 flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                    <i data-lucide="check" class="w-4 h-4 text-green-600"></i>
+                </div>
+                <p class="text-sm font-bold text-green-700">✅ 已同意影像授權，感謝您的支持！</p>
+            </div>
+        </div>
+    </div>
+</section>
                     <div class="space-y-4">
                         <div>
                             <label>支付方式<span class="text-theme-orange">*</span></label>
@@ -1138,6 +1243,9 @@
                 document.getElementById('contractForm').addEventListener('input', () => {
                     this.saveDraft();
                 });
+
+                // ✅ 影像授權監聽
+                this.setupImageConsentListener();
                 
                 // 設定今日日期
                 const today = new Date();
@@ -1655,6 +1763,39 @@
                 }
             },
 
+            // ✅ 影像授權監聽器
+            setupImageConsentListener: function() {
+                const consentRadios = document.querySelectorAll('input[name="image_consent"]');
+                const disagreeNotice = document.getElementById('consent-disagree-notice');
+                const agreeNotice = document.getElementById('consent-agree-notice');
+                const section = document.getElementById('image-consent-section');
+
+                consentRadios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        section.classList.remove('border-red-400', 'bg-red-50/30');
+
+                        if (this.value === '不同意') {
+                            disagreeNotice.classList.remove('hidden');
+                            agreeNotice.classList.add('hidden');
+                        } else if (this.value === '同意') {
+                            agreeNotice.classList.remove('hidden');
+                            disagreeNotice.classList.add('hidden');
+                        }
+                    });
+                });
+            },
+
+            // ✅ 檢查是否已選擇
+            isImageConsentSelected: function() {
+                return !!document.querySelector('input[name="image_consent"]:checked');
+            },
+
+            // ✅ 取得選擇值
+            getImageConsentValue: function() {
+                const selected = document.querySelector('input[name="image_consent"]:checked');
+                return selected ? selected.value : null;
+            },
+
             // 表單驗證
             validateForm: function() {
                 const form = document.getElementById('contractForm');
@@ -1722,6 +1863,13 @@
                 
                 if (!document.getElementById('signature-data').value) {
                     errors.push({ element: document.getElementById('signature-section'), friendlyName: '數位簽名', reason: '尚未完成簽名' });
+                }
+
+                // ✅ 驗證影像授權
+                if (!this.isImageConsentSelected()) {
+                    const section = document.getElementById('image-consent-section');
+                    section.classList.add('border-red-400', 'bg-red-50/30');
+                    errors.push({ element: section, friendlyName: '服務規範與影像授權', reason: '請選擇「同意」或「不同意」' });
                 }
                 
                 if (errors.length > 0) {
@@ -1919,7 +2067,8 @@
                         amount: parseFloat(formData.get('amount')),
                         
                         signature_data: signatureUrl, 
-                        signature_timestamp: document.getElementById('sig-timestamp').innerText
+                        signature_timestamp: document.getElementById('sig-timestamp').innerText,
+                        image_consent: this.getImageConsentValue()
                     };
 
                     // 步驟 3: 儲存到 Supabase
@@ -2318,6 +2467,26 @@
                                         <li style="margin-bottom: 6px;">因本契約所生之訴訟，雙方合意以地方法院為管轄法院。</li>
                                         <li style="margin-bottom: 6px;">美容契約相關法條，附件如店內張貼之公告，如有需求請自行拍照留存。</li>
                                         <li style="color: #E8749B; font-weight: 700;">本人已詳閱並同意以上條款，且同意提供資料用於店家基本美容存檔及安全送醫通知。</li>
+                                        <li style="color: #E8749B; font-weight: 700; border-top: 1px dashed #E5E7EB; padding-top: 8px; margin-top: 8px;">
+                                            ${data.image_consent === '同意' 
+                                                ? '📸 已同意影像授權（店家可拍攝並使用寵物影像於官方社群及宣傳）' 
+                                                : '📸 未同意影像授權（請店家留意，勿使用該寵物影像）'}
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                                <div style="padding: 16px 18px; background: #FDFBF7;">
+                                    <ol style="padding-left: 18px; margin: 0; font-size: 11px; color: #5C6B7A; line-height: 1.9; space-y: 4px;">
+                                        <li style="margin-bottom: 6px;">除本契約另有約定、特殊緊急情況、或不可抗力之情況外，未經飼主同意，店家不得將寵物帶離美容場所(同上店家地址)、轉售、轉讓或以其他變相方法作為其他用途。</li>
+                                        <li style="margin-bottom: 6px;">飼主應於美容當日，將寵物領回，如經通知1日內未領回，依動保法第29條第一款通知主管機關，為飼主惡意棄養，相關罰金為3萬~15萬元，其他衍生性費用將跟飼主求償，例:人員加班費等。</li>
+                                        <li style="margin-bottom: 6px;">寵物發生攻擊行為，如因飼主未善盡告知義務而造成店內人員傷亡、財物損毀等費用，將全額向飼主(寵物占有權人)求償。</li>
+                                        <li style="margin-bottom: 6px;">店家應按本契約約定內容提供一定品質之美容服務。若因可歸責於店家或其受僱人之事由，導致其提供之美容服務有瑕疵，造成飼主發生損失的情況，飼主得要求減少價金或解除契約。</li>
+                                        <li style="margin-bottom: 6px;">本契約之任一方得隨時終止本契約，若因本契約之中止而生損害之一方得向他方請求賠償。</li>
+                                        <li style="margin-bottom: 6px;">於美容服務期間，如發現寵物有異常狀態，應立即通知飼主並妥善處理，如發生異常狀態的原因可歸責於店家之操作行為，店家應負損害賠償責任，例:摔傷寵物等。</li>
+                                        <li style="margin-bottom: 6px;">因本契約所生之訴訟，雙方合意以地方法院為管轄法院。</li>
+                                        <li style="margin-bottom: 6px;">美容契約相關法條，附件如店內張貼之公告，如有需求請自行拍照留存。</li>
+                                        <li style="color: #E8749B; font-weight: 700;">本人已詳閱並同意以上條款，且同意提供資料用於店家基本美容存檔及安全送醫通知。</li>
                                     </ol>
                                 </div>
                             </div>
@@ -2468,7 +2637,7 @@
 
                     window.addEventListener('load', async () => {
                         try {
-                            const registration = await navigator.serviceWorker.register('./sw.js?v=4');
+                            const registration = await navigator.serviceWorker.register('./sw.js?v=5');
 
                             if (registration.waiting) {
                                 this.showUpdatePrompt(registration.waiting);
@@ -2552,7 +2721,7 @@
 (function() {
     if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
-            navigator.serviceWorker.register("/sw.js").then(reg => {
+            navigator.serviceWorker.register("/sw.js?v=6").then(reg => {
                 reg.addEventListener("updatefound", () => {
                     const newWorker = reg.installing;
                     if (!newWorker) return;
